@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Instant Eats — Commentaires 10/10</title>
+<meta name="description" content="Instant Eats — commentaires, tutoriel, 7 jours gratuits, 3.99€/mois" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-0:#f5f5dc; --bg-1:#f5f5dc;
+  --panel:#0b1624; --card:#0f1a2a;
+  --muted:#9fb2c9; --text:#e9f4fb;
+  --accent:#19d7ff; --accent-2:#7effc4;
+  --gold:#ffd166; --focus:rgba(25,215,255,0.18);
+  --radius:14px; --shadow:0 18px 50px rgba(0,0,0,0.6);
+  --ui:18px; --maxw:1200px;
+}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-0),var(--bg-1));
+  font-family:Inter,system-ui,Arial,sans-serif;color:var(--text);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:var(--ui);line-height:1.4}
+*{box-sizing:border-box}
+
+/* Layout */
+.wrap{max-width:var(--maxw);margin:28px auto;padding:20px;display:flex;flex-direction:column;gap:18px}
+header{display:flex;align-items:center;gap:16px;padding:14px;border-radius:12px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);box-shadow:var(--shadow)}
+.logo{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#021018;font-size:20px;cursor:pointer}
+.brand{display:flex;flex-direction:column}
+.brand .title{font-weight:800;font-size:20px;color:#000000 !important}
+.brand .sub{font-size:13px;color:var(--muted)}
+nav{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* Tabs */
+.tab-btn{background:transparent;border-radius:12px;padding:10px 14px;color:var(--muted);
+  border:1px solid transparent;cursor:pointer;font-weight:700;transition:all .14s;box-shadow:none}
+.tab-btn:hover{transform:translateY(-3px);color:var(--text)}
+.tab-btn[aria-selected="true"]{color:#021018;background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  border:1px solid rgba(255,255,255,0.06);box-shadow:0 12px 30px rgba(0,209,255,0.12);transform:translateY(-4px)}
+.tab-btn:focus{outline:3px solid var(--focus);outline-offset:3px}
+
+/* Main panel */
+main{background:var(--panel);padding:20px;border-radius:14px;box-shadow:var(--shadow);min-height:580px}
+.page{display:none}
+.page[aria-hidden="false"]{display:block}
+
+/* Cards */
+.card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.45)}
+h1,h2{margin:0 0 10px 0}
+h1{font-size:28px}
+h2{font-size:20px}
+p{margin:0 0 10px 0;color:var(--muted)}
+.mini{font-size:15px;color:var(--muted)}
+
+/* Comments layout */
+.comments-shell{display:flex;gap:20px;align-items:flex-start}
+.comments-left{flex:1;min-width:480px}
+.comments-right{width:340px;min-width:260px}
+label{display:block;font-weight:700;margin-bottom:8px;color:var(--text)}
+.input,textarea{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text);font-size:16px}
+textarea{min-height:150px;resize:vertical}
+.controls{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.stars{display:flex;gap:10px;align-items:center}
+.star{font-size:28px;cursor:pointer;opacity:0.28;padding:8px;border-radius:10px;background:transparent;border:0;color:var(--gold);transition:all .12s}
+.star.on{opacity:1;transform:translateY(-6px) scale(1.06);filter:drop-shadow(0 6px 18px rgba(255,209,102,0.12))}
+.star:hover{opacity:1;transform:scale(1.08)}
+.emoji-row{display:flex;gap:10px}
+.emoji{padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;font-size:18px;background:transparent}
+.emoji.selected{background:var(--accent);color:#021018;box-shadow:0 10px 26px rgba(0,209,255,0.06)}
+.comment-actions{margin-left:auto;display:flex;gap:8px}
+
+/* Comments list */
+#commentsList{margin-top:14px;display:flex;flex-direction:column;gap:10px;max-height:260px;overflow:auto;padding-right:6px}
+.comment-item{padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border:1px solid rgba(255,255,255,0.02);color:#ffffff}
+
+/* CTA */
+.free-cta-wrap{position:relative;margin-top:18px}
+.free-cta{display:inline-block;padding:14px 18px;border-radius:12px;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021018;text-decoration:none;cursor:pointer;box-shadow:0 22px 50px rgba(0,209,255,0.14);animation:float 2.8s ease-in-out infinite}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+
+/* Socials */
+.socials{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.social-link{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);text-decoration:none;color:var(--text);border:1px solid rgba(255,255,255,0.02)}
+.social-link img{width:40px;height:40px;border-radius:8px;object-fit:cover}
+
+/* Buttons */
+.btn{padding:12px 14px;border-radius:12px;border:0;cursor:pointer;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021018}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.03)}
+
+.accessibility-btn{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;margin:6px 0;font-weight:700;width:100%;text-align:center}
+
+/* Media */
+@media(max-width:960px){
+  .comments-shell{flex-direction:column}
+  .comments-right{width:100%}
+  .logo{width:56px;height:56px}
+}
+</style>
+</head>
+<body>
+<div class="wrap" role="application" aria-label="Instant Eats app">
+<header>
+  <div class="logo" aria-hidden="true" onclick="openPhotoLibrary()">IE</div>
+  <div class="brand">
+    <div class="title">Instant Eats</div>
+    <div class="sub">Commentaires — simple, ludique, efficace</div>
+  </div>
+  <nav role="navigation" aria-label="Navigation principale">
+    <button class="tab-btn" data-target="comments" aria-selected="true">Commentaires</button>
+    <button class="tab-btn" data-target="about" aria-selected="false">À propos</button>
+    <button class="tab-btn" data-target="assistance" aria-selected="false">Assistance</button>
+    <button class="tab-btn" data-target="settings" aria-selected="false">Accessibilité</button>
+  </nav>
+</header>
+
+<main>
+<!-- Page Commentaires -->
+<div class="page" id="comments" aria-hidden="false">
+  <div class="comments-shell">
+    <div class="comments-left">
+      <div class="card">
+        <h2>Laisser un commentaire</h2>
+        <label>Nom</label>
+        <input class="input" id="userName" placeholder="Ton nom">
+        <label>Commentaire</label>
+        <textarea id="userComment" placeholder="Ton commentaire ici..."></textarea>
+
+        <div class="controls">
+          <div class="stars" aria-label="Note">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+
+          <div class="emoji-row" aria-label="Humeur">
+            <button class="emoji" data-emoji="😊">😊</button>
+            <button class="emoji" data-emoji="🔥">🔥</button>
+            <button class="emoji" data-emoji="🤯">🤯</button>
+            <button class="emoji" data-emoji="🍽️">🍽️</button>
+          </div>
+
+          <button class="btn" id="submitComment">Publier</button>
+        </div>
+      </div>
+
+      <div id="commentsList" aria-live="polite"></div>
+
+      <div class="free-cta-wrap">
+        <a class="free-cta" href="https://bit.ly/instant_eats" target="_blank">Essai gratuit 7 jours</a>
+      </div>
+    </div>
+
+    <div class="comments-right">
+      <div class="card">
+        <h2>Nos réseaux</h2>
+        <div class="socials">
+          <a class="social-link" href="https://youtube.com/@instanteats-e4k?si=lvEd3X4jqk8XnxaU" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">YouTube</a>
+          <a class="social-link" href="https://www.tiktok.com/@instant.eats7?_t=ZN-8zCWRmSVDp0&_r=1" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">TikTok</a>
+          <a class="social-link" href="https://www.instagram.com/instant_eats_?igsh=cTRkbWo2dTU5dHU=" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">Instagram</a>
+          <a class="social-link" href="https://x.com/Instant_Eats?t=5ubk5IIZcez1cN8HZhkyCg&s=09" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="X">X</a>
+          <a class="social-link" href="https://www.facebook.com/instant.eats.official" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">Facebook</a>
+          <a class="social-link" href="https://www.pinterest.com/instant_eats/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174863.png" alt="Pinterest">Pinterest</a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:contact@instanteats.com" style="color:var(--accent)">contact@instanteats.com</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page À propos -->
+<div class="page" id="about" aria-hidden="true">
+  <div class="card">
+    <h1>À propos d'Instant Eats</h1>
+    <p>Instant Eats te fait gagner 3–4h/semaine avec des recettes simples et gourmandes, soit +180h/an. Chaque recette vise l’équilibre nutritif sans sacrifier le goût.</p>
+    <p>Essai gratuit 7 jours, puis 3,99€/mois.</p>
+  </div>
+</div>
+
+<!-- Page Assistance -->
+<div class="page" id="assistance" aria-hidden="true">
+  <div class="card">
+    <h1>Assistance</h1>
+    <p>Question ? Écris à <a href="mailto:contact@instanteats.com" style="color:var(--accent)">contact@instanteats.com</a></p>
+  </div>
+</div>
+
+<!-- Page Accessibilité -->
+<div class="page" id="settings" aria-hidden="true">
+  <div class="card">
+    <h1>Accessibilité</h1>
+    <button class="accessibility-btn" onclick="changeTheme('white')">Blanc</button>
+    <button class="accessibility-btn" onclick="changeTheme('black')">Noir</button>
+    <button class="accessibility-btn" onclick="changeTheme('beige')">Beige</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- App + Firestore + UI -->
+<script type="module">
+/* Firebase SDK via ES modules */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+import {
+  getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* Config fournie */
+const firebaseConfig = {
+  apiKey: "AIzaSyAgp0wSUPCfuiKc0QpY4sIPuZwLDhXgLiY",
+  authDomain: "instant-eats-7999f.firebaseapp.com",
+  projectId: "instant-eats-7999f",
+  storageBucket: "instant-eats-7999f.firebasestorage.app",
+  messagingSenderId: "451039044271",
+  appId: "1:451039044271:web:7bb28234d94d82553faa5a",
+  measurementId: "G-N2SWF74SWE"
+};
+
+/* Init */
+const app = initializeApp(firebaseConfig);
+try { getAnalytics(app); } catch(e){ /* Analytics optionnel hors HTTPS/local */ }
+const db = getFirestore(app);
+
+/* Tabs */
+const tabs = document.querySelectorAll('.tab-btn');
+const pages = document.querySelectorAll('.page');
+tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    tabs.forEach(t=>t.setAttribute('aria-selected','false'));
+    tab.setAttribute('aria-selected','true');
+    pages.forEach(p=>p.setAttribute('aria-hidden','true'));
+    document.getElementById(tab.dataset.target).setAttribute('aria-hidden','false');
+  })
+});
+
+/* Dev icon */
+window.openPhotoLibrary = function(){ alert("Mode développeur activé : photothèque ouverte"); };
+
+/* Stars */
+let rating = 0;
+const stars = document.querySelectorAll('.star');
+function highlightStars(val){
+  stars.forEach(s=>s.classList.remove('on'));
+  for(let i=0;i<val;i++){ stars[i].classList.add('on'); }
+}
+stars.forEach(star=>{
+  star.addEventListener('mouseover',()=>{highlightStars(star.dataset.value)});
+  star.addEventListener('mouseout',()=>{highlightStars(rating)});
+  star.addEventListener('click',()=>{rating=Number(star.dataset.value);highlightStars(rating)});
+});
+
+/* Emoji */
+let mood = "";
+const emojis = document.querySelectorAll('.emoji');
+emojis.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    emojis.forEach(e=>e.classList.remove('selected'));
+    btn.classList.add('selected');
+    mood = btn.dataset.emoji;
+  });
+});
+
+/* Accessibilité */
+window.changeTheme = function(color){
+  if(color==='white'){document.body.style.background='#ffffff';document.body.style.color='#021018'}
+  if(color==='black'){document.body.style.background='#000000';document.body.style.color='#ffffff'}
+  if(color==='beige'){document.body.style.background='#f5f5dc';document.body.style.color='#021018'}
+};
+
+/* DOM */
+const commentsList = document.getElementById('commentsList');
+const nameEl = document.getElementById('userName');
+const commentEl = document.getElementById('userComment');
+
+/* Rendu */
+function renderComment(c){
+  const div=document.createElement('div');
+  div.className='comment-item';
+  const starsTxt = '★'.repeat(c.rating||0);
+  const moodTxt = c.mood ? ` &nbsp;${c.mood}` : '';
+  div.innerHTML = `<strong>${escapeHtml(c.name)}</strong> (${c.rating}★)${moodTxt}<br>${escapeHtml(c.comment)}`;
+  return div;
+}
+
+/* Sécurité simple */
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[m]))}
+
+/* Flux temps réel Firestore */
+const q = query(collection(db,"comments"), orderBy("createdAt","desc"));
+onSnapshot(q, (snap)=>{
+  commentsList.innerHTML = "";
+  snap.forEach(doc=>{
+    commentsList.appendChild(renderComment(doc.data()));
+  });
+});
+
+/* Submit */
+document.getElementById('submitComment').addEventListener('click', async ()=>{
+  const name = nameEl.value.trim();
+  const comment = commentEl.value.trim();
+  if(!name || !comment || rating===0){
+    alert("Remplis nom, commentaire et étoiles");
+    return;
+  }
+  await addDoc(collection(db,"comments"),{
+    name, comment, rating, mood, createdAt: serverTimestamp()
+  });
+  nameEl.value=""; commentEl.value="";
+  rating=0; highlightStars(0);
+  mood=""; emojis.forEach(e=>e.classList.remove('selected'));
+});
+</script>
+</body>
+</html>
+
+var admin = require("firebase-admin");
+
+var serviceAccount = require("path/to/serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://instant-eats-7999f-default-rtdb.firebaseio.com"
+});
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAgp0wSUPCfuiKc0QpY4sIPuZwLDhXgLiY",
+  authDomain: "instant-eats-7999f.firebaseapp.com",
+  databaseURL: "https://instant-eats-7999f-default-rtdb.firebaseio.com",
+  projectId: "instant-eats-7999f",
+  storageBucket: "instant-eats-7999f.firebasestorage.app",
+  messagingSenderId: "451039044271",
+  appId: "1:451039044271:web:7bb28234d94d82553faa5a",
+  measurementId: "G-N2SWF74SWE"
+};
+// ---- Firebase Realtime Database JS ----
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+// Config Realtime Database
+const firebaseConfig = {
+  apiKey: "AIzaSyAgp0wSUPCfuiKc0QpY4sIPuZwLDhXgLiY",
+  authDomain: "instant-eats-7999f.firebaseapp.com",
+  databaseURL: "https://instant-eats-7999f-default-rtdb.firebaseio.com",
+  projectId: "instant-eats-7999f",
+  storageBucket: "instant-eats-7999f.appspot.com",
+  messagingSenderId: "451039044271",
+  appId: "1:451039044271:web:7bb28234d94d82553faa5a"
+};
+
+// Init
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// DOM
+const nameEl = document.getElementById('userName');
+const commentEl = document.getElementById('userComment');
+const submitBtn = document.getElementById('submitComment');
+const commentsList = document.getElementById('commentsList');
+
+const stars = document.querySelectorAll('.star');
+const emojis = document.querySelectorAll('.emoji');
+
+let rating = 0;
+let mood = "";
+
+// Étoiles
+function highlightStars(val){
+  stars.forEach(s => s.classList.remove('on'));
+  for(let i=0;i<val;i++){ stars[i].classList.add('on'); }
+}
+stars.forEach(star=>{
+  const val = Number(star.dataset.value);
+  star.addEventListener('mouseover', ()=> highlightStars(val));
+  star.addEventListener('mouseout', ()=> highlightStars(rating));
+  star.addEventListener('click', ()=> { rating = val; highlightStars(rating); });
+});
+
+// Emojis
+emojis.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    emojis.forEach(e=>e.classList.remove('selected'));
+    btn.classList.add('selected');
+    mood = btn.dataset.emoji;
+  });
+});
+
+// Escape simple
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));}
+
+// Rendu commentaire
+function renderComment(c){
+  const div = document.createElement('div');
+  div.className = 'comment-item';
+  const starsTxt = '★'.repeat(c.rating || 0);
+  const moodTxt = c.mood ? ` &nbsp;${c.mood}` : '';
+  div.innerHTML = `<strong>${escapeHtml(c.name)}</strong> (${starsTxt})${moodTxt}<br>${escapeHtml(c.comment)}`;
+  return div;
+}
+
+// Realtime fetch
+const commentsRef = ref(db,'comments');
+onValue(commentsRef, (snapshot)=>{
+  const data = snapshot.val();
+  commentsList.innerHTML = '';
+  if(!data) return;
+  // trier par timestamp descendant
+  const items = Object.keys(data).map(k=> ({id:k,...data[k]}))
+    .sort((a,b)=> (b.timestamp||0)-(a.timestamp||0));
+  items.forEach(item => commentsList.appendChild(renderComment(item)));
+});
+
+// Submit
+submitBtn.addEventListener('click', ()=>{
+  const name = nameEl.value.trim() || "Anonyme";
+  const comment = commentEl.value.trim();
+  if(!comment || rating===0){
+    alert("Remplis nom, commentaire et étoiles");
+    return;
+  }
+  push(ref(db,'comments'),{
+    name,
+    comment,
+    rating,
+    mood,
+    timestamp: serverTimestamp()
+  });
+  nameEl.value=""; commentEl.value="";
+  rating=0; highlightStars(0);
+  mood=""; emojis.forEach(e=>e.classList.remove('selected'));
+});
