@@ -6,18 +6,9 @@
 <title>Instant Eats — Commentaires 10/10</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Ton design original inchangé */
-:root{
-  --bg-0:#f5f5dc; --bg-1:#f5f5dc;
-  --panel:#0b1624; --card:#0f1a2a;
-  --muted:#9fb2c9; --text:#e9f4fb;
-  --accent:#19d7ff; --accent-2:#7effc4;
-  --gold:#ffd166; --focus:rgba(25,215,255,0.18);
-  --radius:14px; --shadow:0 18px 50px rgba(0,0,0,0.6);
-  --ui:18px; --maxw:1200px;
-}
-html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-0),var(--bg-1));
-  font-family:Inter,system-ui,Arial,sans-serif;color:var(--text);font-size:var(--ui);line-height:1.4}
+/* --- Design intact --- */
+:root{--bg-0:#f5f5dc;--bg-1:#f5f5dc;--panel:#0b1624;--card:#0f1a2a;--muted:#9fb2c9;--text:#e9f4fb;--accent:#19d7ff;--accent-2:#7effc4;--gold:#ffd166;--focus:rgba(25,215,255,0.18);--radius:14px;--shadow:0 18px 50px rgba(0,0,0,0.6);--ui:18px;--maxw:1200px;}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-0),var(--bg-1));font-family:Inter,system-ui,Arial,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:var(--ui);line-height:1.4}
 *{box-sizing:border-box}
 .wrap{max-width:var(--maxw);margin:28px auto;padding:20px;display:flex;flex-direction:column;gap:18px}
 header{display:flex;align-items:center;gap:16px;padding:14px;border-radius:12px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);box-shadow:var(--shadow)}
@@ -26,79 +17,104 @@ header{display:flex;align-items:center;gap:16px;padding:14px;border-radius:12px;
 .brand .title{font-weight:800;font-size:20px;color:#000000 !important}
 .brand .sub{font-size:13px;color:var(--muted)}
 nav{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.tab-btn{background:transparent;border-radius:12px;padding:10px 14px;color:var(--muted);border:1px solid transparent;cursor:pointer;font-weight:700;transition:all .14s}
+.tab-btn{background:transparent;border-radius:12px;padding:10px 14px;color:var(--muted);border:1px solid transparent;cursor:pointer;font-weight:700;transition:all .14s;box-shadow:none}
 .tab-btn:hover{transform:translateY(-3px);color:var(--text)}
-.tab-btn[aria-selected="true"]{color:#021018;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 12px 30px rgba(0,209,255,0.12);transform:translateY(-4px)}
+.tab-btn[aria-selected="true"]{color:#021018;background:linear-gradient(90deg,var(--accent),var(--accent-2));border:1px solid rgba(255,255,255,0.06);box-shadow:0 12px 30px rgba(0,209,255,0.12);transform:translateY(-4px)}
+.tab-btn:focus{outline:3px solid var(--focus);outline-offset:3px}
 main{background:var(--panel);padding:20px;border-radius:14px;box-shadow:var(--shadow);min-height:580px}
 .page{display:none}
 .page[aria-hidden="false"]{display:block}
 .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.45)}
-h2{margin:0 0 10px 0;font-size:20px}
+h1,h2{margin:0 0 10px 0}
+h1{font-size:28px}
+h2{font-size:20px}
+p{margin:0 0 10px 0;color:var(--muted)}
+.mini{font-size:15px;color:var(--muted)}
+.comments-shell{display:flex;gap:20px;align-items:flex-start}
+.comments-left{flex:1;min-width:480px}
+.comments-right{width:340px;min-width:260px}
 label{display:block;font-weight:700;margin-bottom:8px;color:var(--text)}
-.input,textarea{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text)}
+.input,textarea{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text);font-size:16px}
 textarea{min-height:150px;resize:vertical}
 .controls{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap}
-.stars{display:flex;gap:10px}
-.star{font-size:28px;cursor:pointer;opacity:0.28;padding:8px;border-radius:10px;background:transparent;border:0;color:var(--gold)}
-.star.on{opacity:1;transform:translateY(-6px) scale(1.06)}
+.stars{display:flex;gap:10px;align-items:center}
+.star{font-size:28px;cursor:pointer;opacity:0.28;padding:8px;border-radius:10px;background:transparent;border:0;color:var(--gold);transition:all .12s}
+.star.on{opacity:1;transform:translateY(-6px) scale(1.06);filter:drop-shadow(0 6px 18px rgba(255,209,102,0.12))}
+.star:hover{opacity:1;transform:scale(1.08)}
 .emoji-row{display:flex;gap:10px}
 .emoji{padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;font-size:18px;background:transparent}
-.emoji.selected{background:var(--accent);color:#021018}
-#commentsList{margin-top:14px;display:flex;flex-direction:column;gap:10px;max-height:260px;overflow:auto}
-.comment-item{padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.05),transparent)}
+.emoji.selected{background:var(--accent);color:#021018;box-shadow:0 10px 26px rgba(0,209,255,0.06)}
+.comment-actions{margin-left:auto;display:flex;gap:8px}
+#commentsList{margin-top:14px;display:flex;flex-direction:column;gap:10px;max-height:260px;overflow:auto;padding-right:6px}
+.comment-item{padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border:1px solid rgba(255,255,255,0.02);color:#ffffff}
+.free-cta-wrap{position:relative;margin-top:18px}
+.free-cta{display:inline-block;padding:14px 18px;border-radius:12px;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021018;text-decoration:none;cursor:pointer;box-shadow:0 22px 50px rgba(0,209,255,0.14);animation:float 2.8s ease-in-out infinite}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+.socials{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.social-link{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);text-decoration:none;color:var(--text);border:1px solid rgba(255,255,255,0.02)}
+.social-link img{width:40px;height:40px;border-radius:8px;object-fit:cover}
 .btn{padding:12px 14px;border-radius:12px;border:0;cursor:pointer;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021018}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.03)}
+.accessibility-btn{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;margin:6px 0;font-weight:700;width:100%;text-align:center}
+@media(max-width:960px){.comments-shell{flex-direction:column}.comments-right{width:100%}.logo{width:56px;height:56px}}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" role="application" aria-label="Instant Eats app">
 <header>
-  <div class="logo">IE</div>
+  <div class="logo" aria-hidden="true">IE</div>
   <div class="brand">
     <div class="title">Instant Eats</div>
     <div class="sub">Commentaires — simple, ludique, efficace</div>
   </div>
-  <nav>
+  <nav role="navigation" aria-label="Navigation principale">
     <button class="tab-btn" data-target="comments" aria-selected="true">Commentaires</button>
-    <button class="tab-btn" data-target="about">À propos</button>
-    <button class="tab-btn" data-target="assistance">Assistance</button>
-    <button class="tab-btn" data-target="settings">Accessibilité</button>
+    <button class="tab-btn" data-target="about" aria-selected="false">À propos</button>
+    <button class="tab-btn" data-target="assistance" aria-selected="false">Assistance</button>
+    <button class="tab-btn" data-target="settings" aria-selected="false">Accessibilité</button>
   </nav>
 </header>
 
 <main>
-  <div class="page" id="comments" aria-hidden="false">
-    <div class="card">
-      <h2>Laisser un commentaire</h2>
-      <label>Nom</label>
-      <input class="input" id="userName" placeholder="Ton nom">
-      <label>Commentaire</label>
-      <textarea id="userComment" placeholder="Ton commentaire ici..."></textarea>
+<div class="page" id="comments" aria-hidden="false">
+  <div class="comments-shell">
+    <div class="comments-left">
+      <div class="card">
+        <h2>Laisser un commentaire</h2>
+        <label>Nom</label>
+        <input class="input" id="userName" placeholder="Ton nom">
+        <label>Commentaire</label>
+        <textarea id="userComment" placeholder="Ton commentaire ici..."></textarea>
 
-      <div class="controls">
-        <div class="stars">
-          <span class="star" data-value="1">★</span>
-          <span class="star" data-value="2">★</span>
-          <span class="star" data-value="3">★</span>
-          <span class="star" data-value="4">★</span>
-          <span class="star" data-value="5">★</span>
+        <div class="controls">
+          <div class="stars" aria-label="Note">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+
+          <div class="emoji-row" aria-label="Humeur">
+            <button class="emoji" data-emoji="😊">😊</button>
+            <button class="emoji" data-emoji="🔥">🔥</button>
+            <button class="emoji" data-emoji="🤯">🤯</button>
+            <button class="emoji" data-emoji="🍽️">🍽️</button>
+          </div>
+
+          <button class="btn" id="submitComment">Publier</button>
+          <button class="btn" id="loginBtn">Connexion Google</button>
         </div>
-        <div class="emoji-row">
-          <button class="emoji" data-emoji="😊">😊</button>
-          <button class="emoji" data-emoji="🔥">🔥</button>
-          <button class="emoji" data-emoji="🤯">🤯</button>
-          <button class="emoji" data-emoji="🍽️">🍽️</button>
-        </div>
-        <button class="btn" id="submitComment">Publier</button>
-        <button class="btn" id="loginBtn">Connexion Google</button>
+      </div>
+
+      <div id="commentsList" aria-live="polite"></div>
+
+      <div class="free-cta-wrap">
+        <a class="free-cta" href="https://bit.ly/instant_eats" target="_blank">Essai gratuit 7 jours</a>
       </div>
     </div>
-
-    <div id="commentsList"></div>
   </div>
-
-  <div class="page" id="about" aria-hidden="true"><div class="card">À propos d’Instant Eats 🚀</div></div>
-  <div class="page" id="assistance" aria-hidden="true"><div class="card">Centre d’aide 💡</div></div>
-  <div class="page" id="settings" aria-hidden="true"><div class="card">Options d’accessibilité ♿</div></div>
+</div>
 </main>
 </div>
 
@@ -106,77 +122,54 @@ textarea{min-height:150px;resize:vertical}
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
 const SUPABASE_URL = "https://iszhlqozptyoqhggboho.supabase.co"
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." // 👈 ta vraie clé publique anon
+const SUPABASE_KEY = "PUBLIC_ANON_KEY" 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-let currentUser = null
-let currentRating = 0
-let currentEmoji = ""
-
-// ✅ Navigation onglets
-document.querySelectorAll(".tab-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll(".tab-btn").forEach(b=>b.setAttribute("aria-selected","false"))
-    btn.setAttribute("aria-selected","true")
-    document.querySelectorAll(".page").forEach(p=>p.setAttribute("aria-hidden","true"))
-    document.getElementById(btn.dataset.target).setAttribute("aria-hidden","false")
-  })
-})
-
-// ✅ Connexion Google
-document.getElementById("loginBtn").addEventListener("click", async ()=>{
+const loginBtn = document.getElementById('loginBtn')
+loginBtn.addEventListener('click', async ()=>{
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: { redirectTo: "https://toiniu2000.github.io/vosavis/" }
-  })
-  if(error) console.error(error)
-  else console.log("Connexion en cours...", data)
-})
-
-// ✅ Stars
-document.querySelectorAll(".star").forEach(star=>{
-  star.addEventListener("click", ()=>{
-    currentRating = parseInt(star.dataset.value)
-    document.querySelectorAll(".star").forEach(s=>s.classList.remove("on"))
-    for(let i=1;i<=currentRating;i++){
-      document.querySelector(`.star[data-value="${i}"]`).classList.add("on")
+    provider:'google',
+    options: {
+      redirectTo: 'https://toiniu2000.github.io/vosavis/'
     }
   })
-})
-
-// ✅ Emoji
-document.querySelectorAll(".emoji").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll(".emoji").forEach(e=>e.classList.remove("selected"))
-    btn.classList.add("selected")
-    currentEmoji = btn.dataset.emoji
-  })
-})
-
-// ✅ Publier un commentaire
-document.getElementById("submitComment").addEventListener("click", async ()=>{
-  const name = document.getElementById("userName").value.trim()
-  const text = document.getElementById("userComment").value.trim()
-  if(!name || !text) return alert("Remplis ton nom et ton commentaire.")
-
-  const { data, error } = await supabase.from("comments").insert([{ 
-    name, text, rating: currentRating, emoji: currentEmoji 
-  }])
   if(error) console.error(error)
-  else loadComments()
+  else console.log('Connexion réussie', data)
 })
 
-// ✅ Charger les commentaires
+const submitBtn = document.getElementById('submitComment')
+const commentsList = document.getElementById('commentsList')
+
+submitBtn.addEventListener('click', async ()=>{
+  const name = document.getElementById('userName').value
+  const comment = document.getElementById('userComment').value
+  if(!name||!comment) return alert('Remplis ton nom et commentaire')
+
+  const { data, error } = await supabase
+    .from('comments')
+    .insert([{ name, comment, created_at: new Date().toISOString() }])
+  if(error) console.error(error)
+  else {
+    const el = document.createElement('div')
+    el.className='comment-item'
+    el.textContent = `${name}: ${comment}`
+    commentsList.prepend(el)
+    document.getElementById('userName').value=''
+    document.getElementById('userComment').value=''
+  }
+})
+
 async function loadComments(){
-  const { data, error } = await supabase.from("comments").select("*").order("id",{ascending:false})
+  const { data, error } = await supabase
+    .from('comments')
+    .select('*')
+    .order('created_at',{ascending:false})
   if(error) return console.error(error)
-  const list = document.getElementById("commentsList")
-  list.innerHTML = ""
   data.forEach(c=>{
-    const div = document.createElement("div")
-    div.className="comment-item"
-    div.innerHTML = `<b>${c.name}</b> — ${c.text} ${c.emoji||""} (${c.rating||0}★)`
-    list.appendChild(div)
+    const el = document.createElement('div')
+    el.className='comment-item'
+    el.textContent = `${c.name}: ${c.comment}`
+    commentsList.appendChild(el)
   })
 }
 loadComments()
