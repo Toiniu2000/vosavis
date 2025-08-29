@@ -434,3 +434,19 @@ submitBtn.addEventListener('click', ()=>{
   rating=0; highlightStars(0);
   mood=""; emojis.forEach(e=>e.classList.remove('selected'));
 });
+
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+const supabaseUrl = 'https://iszhlqozptyoqhggboho.supabase.co'
+const supabaseKey = 'PUBLIC_ANON_KEY'
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: 'https://toiniu2000.github.io/vosavis/'
+    }
+  })
+  if (error) console.error(error)
+})
